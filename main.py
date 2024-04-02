@@ -16,6 +16,33 @@ class Student:
                 lecturer.grades[course] = [grade]
         else:
             return "Ошибка"
+        
+    def _get_average_grade(self):
+        grades_sum = 0
+        grades_count = 0
+        for grade in self.grades.values():
+            grades_sum += sum(grade)
+            grades_count += len(grade)
+        return grades_sum / grades_count
+    
+    def __str__(self):
+        return (f"Имя: {self.name}\nФамилия: {self.surname}\nСредняя оценка за домашние задания: {self._get_average_grade()}\n"
+                f"Курсы в процессе изучения: {",".join(self.courses_in_progress)}\nЗавершенные курсы: {",".join(self.finished_courses)}")    
+    
+    def __eq__(self, other):
+        if isinstance(other, Student):
+            return self._get_average_grade() == other._get_average_grade()
+        return NotImplemented
+    
+    def __lt__(self, other):
+        if isinstance(other, Student):
+            return self._get_average_grade() < other._get_average_grade()
+        return NotImplemented
+    
+    def __le__(self, other):
+        if isinstance(other, Student):
+            return self._get_average_grade() <= other._get_average_grade()
+        return NotImplemented
 
 
 class Mentor:
@@ -32,6 +59,32 @@ class Lecturer(Mentor):
         super().__init__(name, surname)
         self.grades = {}
 
+    def _get_average_grade(self):
+        grades_sum = 0
+        grades_count = 0
+        for grade in self.grades.values():
+            grades_sum += sum(grade)
+            grades_count += len(grade)
+        return grades_sum / grades_count
+    
+    def __str__(self):
+        return f"Имя: {self.name}\nФамилия: {self.surname}\nСредняя оценка за лекции: {self._get_average_grade()}"
+    
+    def __eq__(self, other):
+        if isinstance(other, Lecturer):
+            return self._get_average_grade() == other._get_average_grade()
+        return NotImplemented
+    
+    def __lt__(self, other):
+        if isinstance(other, Lecturer):
+            return self._get_average_grade() < other._get_average_grade()
+        return NotImplemented
+    
+    def __le__(self, other):
+        if isinstance(other, Lecturer):
+            return self._get_average_grade() <= other._get_average_grade()
+        return NotImplemented
+
 
 class Reviewer(Mentor):
 
@@ -43,3 +96,6 @@ class Reviewer(Mentor):
                 student.grades[course] = [grade]
         else:
             return 'Ошибка'
+        
+    def __str__(self):
+        return f"Имя: {self.name}\nФамилия: {self.surname}"
